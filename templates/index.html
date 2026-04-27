@@ -1,1 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>KingsQueen - Youtube Downloader</title>
+
+<meta name="description" content="Download YouTube videos in HD or MP3 instantly.">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg:#020617;
+    --card:rgba(255,255,255,0.05);
+    --text:white;
+}
+
+.light {
+    --bg:#f1f5f9;
+    --card:white;
+    --text:black;
+}
+
+body {
+    margin:0;
+    font-family:Inter;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* HERO */
+.hero {
+    text-align:center;
+    padding:32px 15px 12px;
+}
+.hero h1 { margin:0; font-size:28px; }
+.hero p { margin-top:5px; font-size:13px; opacity:0.7; }
+
+/* MAIN */
+.main {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+/* CARD */
+.card {
+    width:100%;
+    max-width:640px;
+    background:var(--card);
+    padding:16px;
+    border-radius:14px;
+    box-shadow:0 8px 25px rgba(0,0,0,0.4);
+    margin-top:12px;
+    transition:0.3s;
+}
+.card:hover {
+    transform:translateY(-2px);
+}
+
+/* INPUT */
+.input-group {
+    display:flex;
+    gap:8px;
+}
+input {
+    flex:1;
+    padding:12px;
+    border-radius:8px;
+    border:none;
+}
+
+/* BUTTON */
+button {
+    padding:12px 14px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+    cursor:pointer;
+    transition:0.3s;
+}
+button:hover {
+    transform:translateY(-1px);
+    box-shadow:0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* FORMAT */
+.format-btn {
+    width:100%;
+    margin-top:8px;
+    padding:10px;
+    background:#1e293b;
+    border-radius:8px;
+    transition:0.25s;
+}
+.format-btn:hover {
+    background:#334155;
+    transform:scale(1.02);
+}
+.format-btn:focus {
+    outline:none;
+    box-shadow:none;
+}
+
+/* PROGRESS */
+.progress-bar {
+    height:12px;
+    background:#1e293b;
+    border-radius:8px;
+    margin-top:12px;
+}
+.progress {
+    height:100%;
+    width:0%;
+    background:#22c55e;
+}
+
+/* SECTION */
+.section {
+    max-width:700px;
+    margin:22px auto;
+    padding:0 15px;
+}
+
+/* TITLES */
+h3 {
+    margin-bottom:10px;
+}
+
+/* BETWEEN SECTIONS */
+.section + .section {
+    margin-top:10px;
+}
+
+/* GRID */
+.grid {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:10px;
+}
+
+.box {
+    background:var(--card);
+    padding:12px;
+    border-radius:8px;
+    font-size:13px;
+    text-align:center;
+    transition:0.25s;
+}
+.box:hover {
+    transform:translateY(-2px);
+}
+
+/* STEPS (NEW) */
+.steps {
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.step {
+    display:flex;
+    align-items:center;
+    gap:12px;
+    background:var(--card);
+    padding:12px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.step span {
+    width:28px;
+    height:28px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    background:linear-gradient(135deg,#22c55e,#16a34a);
+    color:white;
+    font-size:13px;
+    font-weight:bold;
+}
+
+.step p {
+    margin:0;
+    font-size:13px;
+}
+
+.step:hover {
+    transform:translateY(-2px);
+    box-shadow:0 6px 15px rgba(0,0,0,0.25);
+}
+
+/* FOOTER */
+footer {
+    text-align:center;
+    padding:25px 12px;
+    font-size:12px;
+    opacity:0.6;
+}
+
+/* MOBILE */
+@media(max-width:600px){
+    .input-group { flex-direction:column; }
+    button { width:100%; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<div class="hero">
+<h1> Youtube Video Downloader</h1>
+<p>Fast • Free • Unlimited Downloads</p>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+<div class="card">
+
+<div class="input-group">
+<input id="url" placeholder="Paste YouTube URL">
+<button onclick="getInfo()">Download</button>
+</div>
+
+<div id="info"></div>
+<div id="formats"></div>
+
+<div class="progress-bar">
+<div class="progress" id="progress"></div>
+</div>
+
+<p id="status"></p>
+<div id="actions"></div>
+
+</div>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+<h3>🚀 Features</h3>
+<div class="grid">
+<div class="box">⚡ Fast downloads</div>
+<div class="box">🎵 MP3 + HD</div>
+<div class="box">📱 Mobile friendly</div>
+<div class="box">🔒 Secure</div>
+</div>
+</div>
+
+<!-- HOW IT WORKS (UPDATED) -->
+<div class="section">
+<h3>⚙️ How it Works</h3>
+
+<div class="steps">
+<div class="step">
+<span>1</span>
+<p>Paste your YouTube link into the input box</p>
+</div>
+
+<div class="step">
+<span>2</span>
+<p>Select video quality or MP3 format</p>
+</div>
+
+<div class="step">
+<span>3</span>
+<p>Download instantly with real-time progress</p>
+</div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+<p>👑 KingsQueen - safin ❤️ </p>
+<p>© 2026 All Rights Reserved</p>
+</footer>
+
+<script>
+let job=null;
+
+function setStatus(t){
+    document.getElementById("status").innerText=t;
+}
+
+async function getInfo(){
+    const url=document.getElementById("url").value;
+    setStatus("Fetching...");
+
+    const r=await fetch("/info",{method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({url})});
+
+    const d=await r.json();
+
+    if(!d.success){setStatus("❌ "+d.error);return;}
+
+    document.getElementById("info").innerHTML=
+    `<h3>${d.title}</h3>
+     <img src="${d.thumbnail}" style="width:100%;border-radius:8px;">`;
+
+    getFormats(url);
+}
+
+async function getFormats(url){
+    const r=await fetch("/formats",{method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({url})});
+
+    const d=await r.json();
+
+    let html="<h3>Select Quality</h3>";
+
+    d.formats.forEach(f=>{
+        html+=`<button class="format-btn"
+        onclick="start('${url}','${f.id}')">
+        ${f.id==="mp3"?"🎵 MP3":f.resolution+" • "+f.size}
+        </button>`;
+    });
+
+    document.getElementById("formats").innerHTML=html;
+}
+
+async function start(url,f){
+    const r=await fetch("/start",{method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({url,format_id:f})});
+
+    const d=await r.json();
+    job=d.job_id;
+    track();
+}
+
+async function track(){
+    const r=await fetch(`/progress/${job}`);
+    const d=await r.json();
+
+    document.getElementById("progress").style.width=d.progress+"%";
+    setStatus(d.status+" "+d.progress.toFixed(1)+"%");
+
+    if(d.status==="DONE"){
+        document.getElementById("actions").innerHTML=
+        `<a href="/file/${job}">
+        <button>Download</button></a>`;
+        return;
+    }
+
+    setTimeout(track,1000);
+}
+</script>
+
+</body>
+</html>
